@@ -18,6 +18,9 @@ class EstforMarketplaceApp {
         try {
             console.log('Initializing Estfor Marketplace...');
 
+            // Wait for ethers.js to load
+            await this.#waitForEthers();
+
             // Initialize UI elements
             this.#initializeUIElements();
 
@@ -42,6 +45,23 @@ class EstforMarketplaceApp {
             console.error('Failed to initialize application:', error);
             this.#showError('Failed to initialize application. Please refresh the page.');
         }
+    }
+
+    async #waitForEthers() {
+        // Wait for ethers.js to be available
+        let attempts = 0;
+        const maxAttempts = 50; // 5 seconds max
+
+        while (!window.ethers && attempts < maxAttempts) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
+
+        if (!window.ethers) {
+            throw new Error('Ethers.js library failed to load. Please check your internet connection and refresh the page.');
+        }
+
+        console.log('Ethers.js loaded successfully');
     }
 
     #initializeUIElements() {

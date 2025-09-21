@@ -51,6 +51,10 @@ export class WalletService {
                 throw new Error('No Web3 wallet detected. Please install MetaMask or similar wallet.');
             }
 
+            if (!this.#isEthersAvailable()) {
+                throw new Error('Ethers.js library not loaded. Please refresh the page.');
+            }
+
             // Request account access
             const accounts = await window.ethereum.request({
                 method: 'eth_requestAccounts'
@@ -162,8 +166,13 @@ export class WalletService {
 
     #isWalletAvailable() {
         return typeof window !== 'undefined' &&
-               typeof window.ethereum !== 'undefined' &&
-               window.ethereum.isMetaMask !== undefined;
+               typeof window.ethereum !== 'undefined';
+    }
+
+    #isEthersAvailable() {
+        return typeof window !== 'undefined' &&
+               typeof window.ethers !== 'undefined' &&
+               typeof window.ethers.providers !== 'undefined';
     }
 
     #detectWalletType() {
