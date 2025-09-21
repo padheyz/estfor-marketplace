@@ -1,0 +1,10 @@
+PORT=3080
+
+# This project uses port 3080 by default
+# Always use http://localhost:3080 when serving the HTML files
+#
+# To serve the files:
+# npm run serve
+#
+# Or manually:
+# python3 -m http.server 3080
