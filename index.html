@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estfor Marketplace - Enterprise Edition</title>
+    <meta name="description" content="Professional marketplace interface for Estfor items with batched transaction support">
+
+    <!-- External Dependencies -->
+    <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="./styles/main.css">
+
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.ethers.io; style-src 'self' 'unsafe-inline'; img-src 'self' https://api.estfor.com https://assets.estfor.com; connect-src 'self' https://api.estfor.com https://rpc.soniclabs.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">
+                    <span class="logo">⚡</span>
+                    Estfor Marketplace
+                    <span class="version">Enterprise v1.0</span>
+                </h1>
+
+                <div class="header-actions">
+                    <div id="network-status" class="network-status">
+                        <span class="status-indicator"></span>
+                        <span class="status-text">Disconnected</span>
+                    </div>
+
+                    <button id="wallet-btn" class="btn btn-primary">
+                        Connect Wallet
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- Loading State -->
+            <div id="loading-overlay" class="loading-overlay hidden">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Loading...</p>
+                </div>
+            </div>
+
+            <!-- Error Display -->
+            <div id="error-banner" class="error-banner hidden">
+                <div class="error-content">
+                    <span class="error-icon">⚠️</span>
+                    <span class="error-message"></span>
+                    <button class="error-close">&times;</button>
+                </div>
+            </div>
+
+            <!-- Success Display -->
+            <div id="success-banner" class="success-banner hidden">
+                <div class="success-content">
+                    <span class="success-icon">✅</span>
+                    <span class="success-message"></span>
+                    <button class="success-close">&times;</button>
+                </div>
+            </div>
+
+            <!-- Controls Panel -->
+            <section class="controls-panel">
+                <div class="controls-row">
+                    <button id="load-items-btn" class="btn btn-secondary">
+                        Load Items
+                    </button>
+
+                    <button id="load-orders-btn" class="btn btn-secondary">
+                        Load Market Orders
+                    </button>
+
+                    <button id="load-player-items-btn" class="btn btn-secondary" disabled>
+                        Load Player Items
+                    </button>
+
+                    <div class="control-group">
+                        <label>
+                            <input type="checkbox" id="select-all-checkbox">
+                            Select All
+                        </label>
+                    </div>
+                </div>
+
+                <div class="batch-controls">
+                    <button id="create-sell-orders-btn" class="btn btn-danger" disabled>
+                        Create Sell Orders
+                    </button>
+
+                    <div class="batch-info">
+                        <span id="selected-count">0 items selected</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Items Display -->
+            <section class="items-section">
+                <div class="items-header">
+                    <h2>Estfor Items</h2>
+                    <div class="items-stats">
+                        <span id="items-count">0 items</span>
+                        <span id="last-updated"></span>
+                    </div>
+                </div>
+
+                <div class="items-container">
+                    <div class="items-list-header">
+                        <div class="header-cell">Select</div>
+                        <div class="header-cell">ID</div>
+                        <div class="header-cell">Item</div>
+                        <div class="header-cell">Balance</div>
+                        <div class="header-cell">Market Price</div>
+                        <div class="header-cell">Quantity</div>
+                        <div class="header-cell">Sell Price</div>
+                        <div class="header-cell">Total Value</div>
+                    </div>
+
+                    <div id="items-list" class="items-list">
+                        <div class="no-items">
+                            <p>No items loaded. Click "Load Items" to get started.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Debug Panel (Development Only) -->
+        <aside id="debug-panel" class="debug-panel">
+            <div class="debug-header">
+                <h3>Debug Console</h3>
+                <button id="debug-toggle" class="debug-toggle">Hide</button>
+            </div>
+            <div id="debug-output" class="debug-output"></div>
+            <div class="debug-controls">
+                <button id="debug-clear" class="btn btn-small">Clear</button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title"></h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-cancel">Cancel</button>
+                <button class="btn btn-primary modal-confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="./src/main.js"></script>
+</body>
+</html>
