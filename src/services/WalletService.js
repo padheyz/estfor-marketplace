@@ -61,7 +61,7 @@ export class WalletService {
             }
 
             // Initialize provider and signer
-            this.#provider = new ethers.providers.Web3Provider(window.ethereum);
+            this.#provider = new window.ethers.providers.Web3Provider(window.ethereum);
             this.#signer = this.#provider.getSigner();
 
             // Get network info

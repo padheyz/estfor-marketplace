@@ -101,13 +101,13 @@ export class MarketplaceService {
             const marketplaceAddress = config.getContractAddress('marketplace');
             const itemsAddress = config.getContractAddress('items');
 
-            this.#contract = new ethers.Contract(
+            this.#contract = new window.ethers.Contract(
                 marketplaceAddress,
                 this.#MARKETPLACE_ABI,
                 walletService.signer
             );
 
-            this.#itemsContract = new ethers.Contract(
+            this.#itemsContract = new window.ethers.Contract(
                 itemsAddress,
                 this.#ERC1155_ABI,
                 walletService.signer
@@ -208,8 +208,8 @@ export class MarketplaceService {
                 const contractOrder = {
                     side: order.sideNumeric,
                     tokenId: order.tokenId,
-                    price: ethers.utils.parseEther(order.price.toString()),
-                    quantity: ethers.BigNumber.from(order.quantity)
+                    price: window.ethers.utils.parseEther(order.price.toString()),
+                    quantity: window.ethers.BigNumber.from(order.quantity)
                 };
 
                 // Validate contract limits
@@ -227,8 +227,8 @@ export class MarketplaceService {
     }
 
     #validateContractLimits(order) {
-        const MAX_UINT72 = ethers.BigNumber.from('0xFFFFFFFFFFFFFFFFFF');
-        const MAX_UINT24 = ethers.BigNumber.from('0xFFFFFF');
+        const MAX_UINT72 = window.ethers.BigNumber.from('0xFFFFFFFFFFFFFFFFFF');
+        const MAX_UINT24 = window.ethers.BigNumber.from('0xFFFFFF');
 
         if (order.price.gt(MAX_UINT72)) {
             throw new Error(`Price exceeds maximum allowed value`);
@@ -354,7 +354,7 @@ export class MarketplaceService {
     async getLowestAsk(tokenId) {
         try {
             const price = await this.#contract.getLowestAsk(tokenId);
-            return ethers.utils.formatEther(price);
+            return window.ethers.utils.formatEther(price);
         } catch (error) {
             return null;
         }
@@ -363,7 +363,7 @@ export class MarketplaceService {
     async getHighestBid(tokenId) {
         try {
             const price = await this.#contract.getHighestBid(tokenId);
-            return ethers.utils.formatEther(price);
+            return window.ethers.utils.formatEther(price);
         } catch (error) {
             return null;
         }
